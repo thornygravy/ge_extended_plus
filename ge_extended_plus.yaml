@@ -12,13 +12,13 @@ blueprint:
           multiple: false
     hold_on:
       name: Hold On
-      description: Actions to run for a held on.
+      description: Actions to run for a hold on.
       default: []
       selector:
         action: {}
     hold_off:
       name: Hold Off
-      description: Actions to run for a held off.
+      description: Actions to run for a hold off.
       default: []
       selector:
         action: {}
