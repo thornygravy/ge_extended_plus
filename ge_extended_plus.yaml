@@ -46,7 +46,7 @@ blueprint:
       default: []
       selector:
         action: {}
-  source_url: https://gist.github.com/wired/c01208a9e26aca28c62fffd4e0f1c9a2#file-ge_extended-yaml
+  source_url: https://github.com/thornygravy/ge_extended_plus/blob/ad079f1a1f45e868564d4b658de76fd3efb4d3fc/ge_extended_plus.yaml
   # credits to wired: https://gist.github.com/wired/c01208a9e26aca28c62fffd4e0f1c9a2 and kpine: https://gist.github.com/kpine/65e6324a0e6a9d48f9f50f77310ecd7f
 mode: single
 max_exceeded: silent
