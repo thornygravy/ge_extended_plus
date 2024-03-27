@@ -1,0 +1,78 @@
+blueprint:
+  name: GE Switch Double, Triple Taps & Held
+  description: Create automations to react to double taps from supporting GE switches.
+  domain: automation
+  input:
+    device:
+      name: Switch Device
+      description: A GE switch that supports double taps.
+      selector:
+        device:
+          integration: zwave_js
+          multiple: false
+    held_on:
+      name: Held On
+      description: Actions to run for a held on.
+      default: []
+      selector:
+        action: {}
+    held_off:
+      name: Held Off
+      description: Actions to run for a held off.
+      default: []
+      selector:
+        action: {}
+    double_tap_on:
+      name: Double Tap On
+      description: Actions to run for a double tap on.
+      default: []
+      selector:
+        action: {}
+    double_tap_off:
+      name: Double Tap Off
+      description: Actions to run for a double tap off.
+      default: []
+      selector:
+        action: {}
+    triple_tap_on:
+      name: Triple Tap On
+      description: Actions to run for a triple tap on.
+      default: []
+      selector:
+        action: {}
+    triple_tap_off:
+      name: Triple Tap Off
+      description: Actions to run for a triple tap off.
+      default: []
+      selector:
+        action: {}
+  source_url: https://gist.github.com/wired/c01208a9e26aca28c62fffd4e0f1c9a2#file-ge_extended-yaml
+  # credits to wired: https://gist.github.com/wired/c01208a9e26aca28c62fffd4e0f1c9a2 and kpine: https://gist.github.com/kpine/65e6324a0e6a9d48f9f50f77310ecd7f
+mode: single
+max_exceeded: silent
+trigger:
+  platform: event
+  event_type: zwave_js_value_notification
+  event_data:
+    device_id: !input device
+    command_class: 91
+action:
+- variables:
+    prop: '{{ trigger.event.data.property_key }}'
+    value_raw: '{{ trigger.event.data.value_raw }}'
+    value: '{{trigger.event.data.value }}'
+    
+    
+- choose:
+  - conditions: '{{ value == "KeyHeldDown" and value_raw == 2 and prop == "001" }}'
+    sequence: !input held_on
+  - conditions: '{{ value == "KeyHeldDown" and value_raw == 2 and prop == "002" }}'
+    sequence: !input held_off
+  - conditions: '{{ value_raw == 3 and prop == "002" }}'
+    sequence: !input double_tap_off
+  - conditions: '{{ value_raw == 3 and prop == "001" }}'
+    sequence: !input double_tap_on
+  - conditions: '{{ value_raw == 4 and prop == "002" }}'
+    sequence: !input triple_tap_off
+  - conditions: '{{ value_raw == 4 and prop == "001" }}'
+    sequence: !input triple_tap_on
