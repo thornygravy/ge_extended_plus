@@ -1,23 +1,23 @@
 blueprint:
-  name: GE Switch Double, Triple Taps & Held
-  description: Create automations to react to double taps from supporting GE switches.
+  name: GE Switch Double, Triple Taps & Hold
+  description: Create automations to react to double taps, triple taps or hold from supporting GE switches.
   domain: automation
   input:
     device:
       name: Switch Device
-      description: A GE switch that supports double taps.
+      description: A GE switch that supports scenes.
       selector:
         device:
           integration: zwave_js
           multiple: false
-    held_on:
-      name: Held On
+    hold_on:
+      name: Hold On
       description: Actions to run for a held on.
       default: []
       selector:
         action: {}
-    held_off:
-      name: Held Off
+    hold_off:
+      name: Hold Off
       description: Actions to run for a held off.
       default: []
       selector:
@@ -65,9 +65,9 @@ action:
     
 - choose:
   - conditions: '{{ value == "KeyHeldDown" and value_raw == 2 and prop == "001" }}'
-    sequence: !input held_on
+    sequence: !input hold_on
   - conditions: '{{ value == "KeyHeldDown" and value_raw == 2 and prop == "002" }}'
-    sequence: !input held_off
+    sequence: !input hold_off
   - conditions: '{{ value_raw == 3 and prop == "002" }}'
     sequence: !input double_tap_off
   - conditions: '{{ value_raw == 3 and prop == "001" }}'
